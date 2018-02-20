@@ -15,12 +15,14 @@ pipeline {
 	  
     stage("Unit test") {
       steps {
+	sh "chmod -R 775 *"
         sh "./gradlew test"
       }
     }
 	
     stage("Code coverage") {
       steps {
+	sh "chmod -R 775 *"
         sh "./gradlew jacocoTestReport"
         publishHTML (target: [
                reportDir: 'build/reports/jacoco/test/html',
@@ -32,6 +34,7 @@ pipeline {
 
     stage("Static code analysis") {
       steps {
+	sh "chmod -R 775 *"
         sh "./gradlew checkstyleMain"
         publishHTML (target: [
                reportDir: 'build/reports/checkstyle/',
@@ -42,12 +45,14 @@ pipeline {
 
     stage("Build") {
       steps {
+	sh "chmod -R 775 *"
         sh "./gradlew build"
       }
     }
 
     stage("Docker build") {
       steps {
+	sh "chmod -R 775 *"
         sh "docker build -t leszko/calculator:${BUILD_TIMESTAMP} ."
       }
     }
